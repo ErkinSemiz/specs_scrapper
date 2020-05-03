@@ -1,4 +1,4 @@
-#pip install requests pandas selenium six random_user_agent
+#pip install wheel pandas selenium random_user_agent requests xlsxwriter
 
 import os
 import requests
@@ -31,7 +31,7 @@ def send_request(url):
 
 #hepsiburada_scrapper works differently than the two other scrapping functions in this script it is using
 #local page approach because of the hosts better detection.
-def hepsiburada_scrapper(url, driver):
+def hepsiburada_scrapper(url):
 
     #xpath1 for the keys xpath2 for the values
     xpath1 = "//table[@class = 'data-list tech-spec']//tbody//tr//th"
@@ -45,7 +45,7 @@ def hepsiburada_scrapper(url, driver):
     driver.get(pagefile)
     scrap_and_out(xpath1, xpath2)
 
-def n11_scrapper(url, driver):
+def n11_scrapper(url):
 
     # xpath1 for the keys xpath2 for the values
     xpath1 = "//p[@class = 'unf-prop-list-title']"
@@ -59,7 +59,7 @@ def n11_scrapper(url, driver):
 
     scrap_and_out(xpath1,xpath2)
 
-def trendyol_scrapper(url, driver):
+def trendyol_scrapper(url):
 
     # xpath1 for the keys xpath2 for the values
     xpath1 = "//div[@class = 'item-key']"
@@ -137,19 +137,19 @@ if "__main__" == __name__:
     # Expected goods url input and scrapping.
 
     while True:
-        try:
-            url = input("Özelliklerini öğrenmek istediğiniz hepsiburada/trendyol/n11 ürününün linkini giriniz: ")
-            u = urlparse(url)
-            hostname = u.hostname
-            print("Site host adı:"+hostname)
-            if u.hostname == "www.trendyol.com" or u.hostname == "www.hepsiburada.com" or u.hostname == "www.n11.com":
-                print("Özelliklerin alınması için" + hostname +"'e özel fonksiyon çağırılıyor.")
-                if hostname == "www.hepsiburada.com":
-                    hepsiburada_scrapper(url, driver)
-                elif hostname == "www.trendyol.com":
-                    trendyol_scrapper(url, driver)
-                elif hostname == "www.n11.com":
-                    n11_scrapper(url, driver)
-                break
-        except:
-            print("Girdiğiniz ürün hepsiburada/trendyol veya n11 ürünü değildir. Lütfen tekrar ürün girişi yapınız.")
+        # try:
+        url = input("Özelliklerini öğrenmek istediğiniz hepsiburada/trendyol/n11 ürününün linkini giriniz: ")
+        u = urlparse(url)
+        hostname = u.hostname
+        print("Site host adı: "+hostname)
+        if u.hostname == "www.trendyol.com" or u.hostname == "www.hepsiburada.com" or u.hostname == "www.n11.com":
+            print("Özelliklerin alınması için " + hostname +"'a özel fonksiyon çağırılıyor.")
+            if hostname == "www.hepsiburada.com":
+                hepsiburada_scrapper(url)
+            elif hostname == "www.trendyol.com":
+                trendyol_scrapper(url)
+            elif hostname == "www.n11.com":
+                n11_scrapper(url)
+            break
+        # except:
+        #     print("Girdiğiniz ürün hepsiburada/trendyol veya n11 ürünü değildir. Lütfen tekrar ürün girişi yapınız.")
